@@ -138,5 +138,79 @@ Content-Type: application/octet-stream
 ##            ^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted
 
 aωb
+## <- meta.body text.plain
 -----------------------------735323031399963166993862150--
 ##^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ punctuation.separator.mapping
+
+HTTP/1.1 404 Not Found
+## ^^^^^ constant.language.protocol-version
+##       ^^^^^^^^^^^^^ markup.warning
+##       ^^^ meta.http-status-code meta.number.integer.decimal constant.numeric.value
+##           ^^^^^^^^^ meta.http-response-status-text string.unquoted
+Content-Type: text/plain; charset=utf-8
+## ^^^^^^^^^ meta.headers keyword.other.http-header.key
+##          ^ meta.headers punctuation.separator.key-value
+##            ^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.http-header.value
+##                      ^ punctuation.separator.mapping.key-value
+##                        ^^^^^^^ variable.parameter
+##                               ^ keyword.operator.assignment
+Connection: keep-alive
+## ^^^^^^^ meta.headers string.unquoted.http-header.value keyword.other.http-header.key
+##        ^ meta.headers string.unquoted.http-header.value punctuation.separator.key-value
+##          ^^^^^^^^^^ meta.headers string.unquoted.http-header.value
+
+Nothing to see here!
+## ^^^^^^^^^^^^^^^^^^ meta.body text.plain
+
+HTTP/1.1 200 OK
+## ^^^^^ constant.language.protocol-version
+##       ^^^^^^ markup.info
+##       ^^^ meta.http-status-code meta.number.integer.decimal constant.numeric.value
+##           ^^ meta.http-response-status-text string.unquoted
+Content-Type: text/css; charset=utf-8
+## ^^^^^^^^^ meta.headers keyword.other.http-header.key
+##          ^ meta.headers punctuation.separator.key-value
+##            ^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted
+Connection: keep-alive
+## ^^^^^^^ meta.headers string.unquoted.http-header.value keyword.other.http-header.key
+##        ^ meta.headers string.unquoted.http-header.value punctuation.separator.key-value
+##          ^^^^^^^^^^ meta.headers string.unquoted.http-header.value
+
+a {}
+## <- meta.body source.css meta.selector entity.name.tag.html
+
+HTTP/1.1 200 OK
+## ^^^^^ constant.language.protocol-version
+##       ^^^^^^ markup.info
+##       ^^^ meta.http-status-code meta.number.integer.decimal constant.numeric.value
+##           ^^ meta.http-response-status-text string.unquoted
+No-Content-Type: testing123
+
+Plain text here
+## ^^^^^^^^^^^^^ meta.body text.plain
+
+HTTP/1.1 200 OK
+## ^^^^^ constant.language.protocol-version
+##       ^^^^^^ markup.info
+##       ^^^ meta.http-status-code meta.number.integer.decimal constant.numeric.value
+##           ^^ meta.http-response-status-text string.unquoted
+Content-Type: unknown;charset=utf-8
+##            ^^^^^^^^^^^^^^^^^^^^^ meta.headers string.unquoted.http-header.value
+##                   ^ string.unquoted.http-header.value punctuation.separator.mapping.key-value
+##                    ^^^^^^^ variable.parameter
+##                           ^ keyword.operator.assignment
+
+Plain text here
+## ^^^^^^^^^^^^^ meta.body text.plain
+
+HTTP/1.1 200 OK
+## ^^^^^ constant.language.protocol-version
+##       ^^^^^^ markup.info
+##       ^^^ meta.http-status-code meta.number.integer.decimal constant.numeric.value
+##           ^^ meta.http-response-status-text string.unquoted
+Content-Type: application/javascript
+##            ^^^^^^^^^^^^^^^^^^^^^^ meta.headers string.unquoted.http-header.value
+
+let x = 1;
+## ^^^^^^^^ meta.body source.js
+

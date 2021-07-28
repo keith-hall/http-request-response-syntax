@@ -107,9 +107,12 @@ contexts:
       set: [content-type-querystring, header-value]
     - match: (multipart/form-data){{content_type_sep}}
       set: [content-type-multipart-form-data, header-value]
-    - match: \S.*$
-      scope: string.unquoted.http-request-response
-      pop: true
+    - match: (application/javascript){{content_type_sep}}
+      set: [content-type-js, header-value]
+    - match: (text/css){{content_type_sep}}
+      set: [content-type-css, header-value]
+    - match: (?=\S.*{{content_type_sep}})
+      set: [content-type-plaintext, header-value]
 
   http-headers:
     - meta_content_scope: meta.headers.http-request-response
@@ -129,11 +132,10 @@ contexts:
         2: punctuation.separator.key-value.http-request-response
       push: header-value
     - match: ^$\n
-      set: scope:text.plain
+      set: [body, embed_plain]
 
   header-value:
     - meta_scope: string.unquoted.http-header.value.http-request-response
-      pop: true
     - match: '[;,]'
       scope: punctuation.separator.mapping.key-value.http-request-response
     - match: \b([-\w]+)(=)
@@ -181,6 +183,24 @@ contexts:
       set: [body, embed_multipart-form-data]
     - include: http-headers
 
+  content-type-js:
+    - meta_content_scope: meta.headers.http-request-response
+    - match: ^$\n
+      set: [body, embed_js]
+    - include: http-headers
+
+  content-type-css:
+    - meta_content_scope: meta.headers.http-request-response
+    - match: ^$\n
+      set: [body, embed_css]
+    - include: http-headers
+
+  content-type-plaintext:
+    - meta_content_scope: meta.headers.http-request-response
+    - match: ^$\n
+      set: [body, embed_plain]
+    - include: http-headers
+
   multipart-form-data-boundary:
     - match: '{{multipart_form_data_boundary}}'
       scope: punctuation.separator.mapping.http-request-response
@@ -217,6 +237,12 @@ contexts:
       embed: scope:text.html.basic
       escape: (?={{end_of_body}})
 
+  embed_js:
+    - include: end_embed
+    - match: ''
+      embed: scope:source.js
+      escape: (?={{end_of_body}})
+
   embed_querystring:
     - include: end_embed
     - match: ''
@@ -229,3 +255,15 @@ contexts:
     - match: ''
       embed: multipart-form-data
       escape: (?={{multipart_form_data_boundary}}|{{end_of_body}})
+
+  embed_plain:
+    - include: end_embed
+    - match: ''
+      embed: scope:text.plain
+      escape: (?={{end_of_body}})
+
+  embed_css:
+    - include: end_embed
+    - match: ''
+      embed: scope:source.css
+      escape: (?={{end_of_body}})
