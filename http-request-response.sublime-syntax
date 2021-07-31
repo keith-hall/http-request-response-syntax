@@ -8,8 +8,8 @@ file_extensions:
 variables:
   content_type_sep: (?=;|$)
   multipart_form_data_boundary: (?:^---+.*$)
-  http_version: (?:\bHTTP/\d\.\d\b)
-  end_of_body: '^{{http_version}}\s\d{3}\s\w+'
+  http_version: (?:\bHTTP/\d(?:\.\d)?\b)
+  end_of_body: '^{{http_version}} \d{3}(?: \w+)?'
 contexts:
   prototype:
     - match: '^##'
