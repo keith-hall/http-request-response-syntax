@@ -9,14 +9,13 @@ variables:
   content_type_sep: (?=;|$)
   multipart_form_data_boundary: (?:^---+.*$)
   http_version: (?:\bHTTP/\d(?:\.\d)?\b)
-  end_of_body: '^{{http_version}} \d{3}(?: \w+)?'
+  end_of_body: (?=^{{http_version}} \d{3})
 contexts:
   prototype:
     - match: '^##'
       scope: punctuation.definition.comment.http-request-response
       push:
         - meta_scope: comment.line.syntax-test.http-request-response
-        - meta_include_prototype: false
         - match: $\n?
           set:
             - match: ^
@@ -25,9 +24,9 @@ contexts:
   main:
     - match: ^(?:GET|HEAD|POST|PUT|DELETE|CONNECT|OPTIONS|TRACE|PATCH)
       scope: meta.http-verb.http-request-response keyword.operator.word.http-request-response
-    - match: '{{http_version}}'
-      scope: constant.language.protocol-version.http-request-response
-      push: maybe_response
+    - match: '{{end_of_body}}'
+      push: response_begin
+    - include: http-protocol-version
     - include: url_escape_char
     - match: /
       scope: meta.url punctuation.separator.path.directory.http-request-response
@@ -39,7 +38,12 @@ contexts:
     - match: $
       set: http-headers
 
-  maybe_response:
+  http-protocol-version:
+    - match: '{{http_version}}'
+      scope: constant.language.protocol-version.http-request-response
+
+  response_begin:
+    - include: http-protocol-version
     - match: $
       pop: true
     - match: (?=[123])
@@ -70,6 +74,8 @@ contexts:
       scope: meta.http-status-code.http-request-response meta.number.integer.decimal.http-request-response constant.numeric.value.http-request-response
     - match: \S.*$
       scope: meta.http-response-status-text.http-request-response string.unquoted.http-request-response
+      pop: true
+    - match: $
       pop: true
 
   querystring:
@@ -212,24 +218,24 @@ contexts:
 
   body:
     - meta_content_scope: meta.body.http-request-response
-    - match: (?={{end_of_body}})
+    - match: '{{end_of_body}}'
       set: main
 
   end_embed:
-    - match: (?={{end_of_body}})
+    - match: '{{end_of_body}}'
       pop: true
 
   embed_json:
     - include: end_embed
     - match: ''
       embed: scope:source.json
-      escape: (?={{end_of_body}})
+      escape: '{{end_of_body}}'
 
   embed_xml:
     - include: end_embed
     - match: ''
       embed: scope:text.xml
-      escape: (?={{end_of_body}})
+      escape: '{{end_of_body}}'
 
   embed_html:
     - include: end_embed
@@ -241,29 +247,29 @@ contexts:
     - include: end_embed
     - match: ''
       embed: scope:source.js
-      escape: (?={{end_of_body}})
+      escape: '{{end_of_body}}'
 
   embed_querystring:
     - include: end_embed
     - match: ''
       embed: querystring
-      escape: (?={{end_of_body}})
+      escape: '{{end_of_body}}'
 
   embed_multipart-form-data:
     - include: end_embed
     - include: multipart-form-data-boundary
     - match: ''
       embed: multipart-form-data
-      escape: (?={{multipart_form_data_boundary}}|{{end_of_body}})
+      escape: (?={{multipart_form_data_boundary}})|{{end_of_body}}
 
   embed_plain:
     - include: end_embed
     - match: ''
       embed: scope:text.plain
-      escape: (?={{end_of_body}})
+      escape: '{{end_of_body}}'
 
   embed_css:
     - include: end_embed
     - match: ''
       embed: scope:source.css
-      escape: (?={{end_of_body}})
+      escape: '{{end_of_body}}'
