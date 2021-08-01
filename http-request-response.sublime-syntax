@@ -5,7 +5,15 @@ scope: text.http-request-response
 name: HTTP Request and Response
 file_extensions:
   - http
-first_line_match: '^(?:(?:GET|HEAD|POST|PUT|DELETE|CONNECT|OPTIONS|TRACE|PATCH) .+ HTTP/\d(?:\.\d)?$|HTTP/\d(?:\.\d)? \d{3}(?: .*?)?$)'
+first_line_match: |-
+  (?x:
+    ^
+    (?:
+      (?:GET|HEAD|POST|PUT|DELETE|CONNECT|OPTIONS|TRACE|PATCH)\ .+\ HTTP/\d(?:\.\d)?$
+      |
+      (?:HTTP/\d(?:\.\d)?\ \d{3}\ )
+    )
+  )
 variables:
   content_type_sep: (?=;|$)
   multipart_form_data_boundary: (?:^---+.*$)
