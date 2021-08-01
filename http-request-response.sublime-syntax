@@ -113,12 +113,12 @@ contexts:
 
   content-type:
     - meta_content_scope: meta.headers.http-request-response
-    - match: (application/json|text/json){{content_type_sep}}
+    - match: (application/json|text/json|[\w.-]+/[\w.-]+\+json){{content_type_sep}}
       set: [content-type-json, header-value]
-    - match: (application/xml|text/xml){{content_type_sep}}
-      set: [content-type-xml, header-value]
     - match: (application/xhtml\+xml|text/html){{content_type_sep}}
       set: [content-type-html, header-value]
+    - match: (application/xml|text/xml|[\w.-]+/[\w.-]+\+xml){{content_type_sep}}
+      set: [content-type-xml, header-value]
     - match: (application/x-www-form-urlencoded){{content_type_sep}}
       set: [content-type-querystring, header-value]
     - match: (multipart/form-data){{content_type_sep}}
