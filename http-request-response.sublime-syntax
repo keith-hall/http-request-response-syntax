@@ -20,6 +20,7 @@ variables:
   http_version: (?:\bHTTP/\d(?:\.\d)?\b)
   end_of_body: (?=^{{http_version}}[ ]\d{3})
   end_of_headers: (?:^$\n)
+  media_type_suffix_prefix: (?:[\w.-]+/[\w.-]+)
 contexts:
   prototype:
     - match: '^##'
@@ -113,11 +114,11 @@ contexts:
 
   content-type:
     - meta_content_scope: meta.headers.http-request-response
-    - match: (application/json|text/json|[\w.-]+/[\w.-]+\+json){{content_type_sep}}
+    - match: (application/json|text/json|{{media_type_suffix_prefix}}\+json){{content_type_sep}}
       set: [content-type-json, header-value]
     - match: (application/xhtml\+xml|text/html){{content_type_sep}}
       set: [content-type-html, header-value]
-    - match: (application/xml|text/xml|[\w.-]+/[\w.-]+\+xml){{content_type_sep}}
+    - match: (application/xml|text/xml|{{media_type_suffix_prefix}}\+xml){{content_type_sep}}
       set: [content-type-xml, header-value]
     - match: (application/x-www-form-urlencoded){{content_type_sep}}
       set: [content-type-querystring, header-value]
