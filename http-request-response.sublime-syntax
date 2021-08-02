@@ -18,7 +18,8 @@ variables:
   content_type_sep: (?=;|$)
   multipart_form_data_boundary: (?:^---+.*$)
   http_version: (?:\bHTTP/\d(?:\.\d)?\b)
-  end_of_body: (?=^{{http_version}} \d{3})
+  end_of_body: (?=^{{http_version}}[ ]\d{3})
+  end_of_headers: (?:^$\n)
 contexts:
   prototype:
     - match: '^##'
@@ -146,7 +147,7 @@ contexts:
         1: keyword.other.http-header.key.http-request-response
         2: punctuation.separator.key-value.http-request-response
       push: header-value
-    - match: ^$\n
+    - match: '{{end_of_headers}}'
       set: [body, embed_plain]
 
   header-value:
@@ -170,49 +171,49 @@ contexts:
 
   content-type-json:
     - meta_content_scope: meta.headers.http-request-response
-    - match: ^$\n
+    - match: '{{end_of_headers}}'
       set: [body, embed_json]
     - include: http-headers
 
   content-type-xml:
     - meta_content_scope: meta.headers.http-request-response
-    - match: ^$\n
+    - match: '{{end_of_headers}}'
       set: [body, embed_xml]
     - include: http-headers
 
   content-type-html:
     - meta_content_scope: meta.headers.http-request-response
-    - match: ^$\n
+    - match: '{{end_of_headers}}'
       set: [body, embed_html]
     - include: http-headers
 
   content-type-querystring:
     - meta_content_scope: meta.headers.http-request-response
-    - match: ^$\n
+    - match: '{{end_of_headers}}'
       set: [body, embed_querystring]
     - include: http-headers
 
   content-type-multipart-form-data:
     - meta_content_scope: meta.headers.http-request-response
-    - match: ^$\n
+    - match: '{{end_of_headers}}'
       set: [body, embed_multipart-form-data]
     - include: http-headers
 
   content-type-js:
     - meta_content_scope: meta.headers.http-request-response
-    - match: ^$\n
+    - match: '{{end_of_headers}}'
       set: [body, embed_js]
     - include: http-headers
 
   content-type-css:
     - meta_content_scope: meta.headers.http-request-response
-    - match: ^$\n
+    - match: '{{end_of_headers}}'
       set: [body, embed_css]
     - include: http-headers
 
   content-type-plaintext:
     - meta_content_scope: meta.headers.http-request-response
-    - match: ^$\n
+    - match: '{{end_of_headers}}'
       set: [body, embed_plain]
     - include: http-headers
 
