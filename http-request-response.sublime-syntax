@@ -15,11 +15,11 @@ first_line_match: |-
     )
   )
 variables:
-  content_type_sep: (?=;|$)
+  content_type_sep: (?=;|\r?$)
   multipart_form_data_boundary: (?:^---+.*$)
   http_version: (?:\bHTTP/\d(?:\.\d)?\b)
   end_of_body: (?=^{{http_version}}[ ]\d{3})
-  end_of_headers: (?:^$\n)
+  end_of_headers: (?:^\r?$\n)
   media_type_suffix_prefix: (?:[\w.-]+/[\w.-]+)
 contexts:
   prototype:

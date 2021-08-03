@@ -227,3 +227,23 @@ vary: Accept-Encoding
   <meta charset="utf-8">
 </head>
 ## ^^^ meta.body text.html meta.tag.structure.any entity.name.tag.structure.any
+
+HTTP/2 200
+content-type: image/svg+xml; charset=UTF-8
+
+<svg width="400" height="400">
+  <g class="xaxis axis" transform="translate(30,370)">
+    <g class="tick" style="opacity: 1;" transform="translate(0,0)">
+      <line y2="-340" x2="0" />
+      <text dy=".71em" style="text-anchor: middle;" y="3" x="0">-20</text>
+    </g>
+    <g class="tick" style="opacity: 1;" transform="translate(43.589743589743584,0)">
+      <line y2="-340" x2="0" />
+      <text dy=".71em" style="text-anchor: middle;" y="3" x="0">-15</text>
+    </g>
+    <g class="tick" style="opacity: 1;" transform="translate(87.17948717948717,0)">
+      <line y2="-340" x2="0" />
+##     ^^^^ meta.body text.xml meta.tag entity.name.tag.localname
+      <text dy=".71em" style="text-anchor: middle;" y="3" x="0">-10</text>
+    </g>
+  </svg>
